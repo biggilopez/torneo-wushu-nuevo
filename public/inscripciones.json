@@ -1,0 +1,203 @@
+[
+    {
+      "id": "a1",
+      "nombre": "Juan Pérez",
+      "genero": "masculino",
+      "edad": 25,
+      "peso": 68,
+      "categoria": "mayores",
+      "division": "-70kg"
+    },
+    {
+      "id": "a2",
+      "nombre": "Carlos Díaz",
+      "genero": "masculino",
+      "edad": 28,
+      "peso": 69,
+      "categoria": "mayores",
+      "division": "-70kg"
+    },
+    {
+      "id": "a3",
+      "nombre": "Pedro Sánchez",
+      "genero": "masculino",
+      "edad": 22,
+      "peso": 67,
+      "categoria": "mayores",
+      "division": "-70kg"
+    },
+    {
+      "id": "a4",
+      "nombre": "Luis Gómez",
+      "genero": "masculino",
+      "edad": 21,
+      "peso": 69,
+      "categoria": "mayores",
+      "division": "-70kg"
+    },
+    {
+      "id": "a5",
+      "nombre": "Andrés López",
+      "genero": "masculino",
+      "edad": 30,
+      "peso": 68,
+      "categoria": "mayores",
+      "division": "-70kg"
+    },
+    {
+      "id": "a6",
+      "nombre": "Lucía Martínez",
+      "genero": "femenino",
+      "edad": 17,
+      "peso": 55,
+      "categoria": "junior",
+      "division": "-56kg"
+    },
+    {
+      "id": "a7",
+      "nombre": "Valentina Ruiz",
+      "genero": "femenino",
+      "edad": 17,
+      "peso": 54,
+      "categoria": "junior",
+      "division": "-56kg"
+    },
+    
+    {
+      "id": "a8",
+      "nombre": "Pedro Alfonzo",
+      "genero": "masculino",
+      "edad": 17,
+      "peso": 54,
+      "categoria": "junior",
+      "division": "-56kg"
+    },
+    {
+      "id": "a9",
+      "nombre": "Juan Montoto",
+      "genero": "masculino",
+      "edad": 17,
+      "peso": 55,
+      "categoria": "junior",
+      "division": "-56kg"
+    },
+    {
+      "id": "a10",
+      "nombre": "Guillermo Fuentes",
+      "genero": "masculino",
+      "edad": 17,
+      "peso": 53,
+      "categoria": "junior",
+      "division": "-56kg"
+    },
+    {
+      "id": "a11",
+      "nombre": "Angel González",
+      "genero": "masculino",
+      "edad": 16,
+      "peso": 53,
+      "categoria": "junior",
+      "division": "-56kg"
+    },
+    {
+      "id": "a12",
+      "nombre": "Franco Roman",
+      "genero": "masculino",
+      "edad": 16,
+      "peso": 71,
+      "categoria": "junior",
+      "division": "-75kg"
+    },
+    {
+      "id": "a13",
+      "nombre": "Carlos Martinez",
+      "genero": "masculino",
+      "edad": 17,
+      "peso": 73,
+      "categoria": "junior",
+      "division": "-75kg"
+    },
+    {
+      "id": "a14",
+      "nombre": "Facundo Romero",
+      "genero": "masculino",
+      "edad": 16,
+      "peso": 72,
+      "categoria": "junior",
+      "division": "-75kg"
+    },
+    {
+      "id": "a15",
+      "nombre": "Facundo Peres",
+      "genero": "masculino",
+      "edad": 16,
+      "peso": 49,
+      "categoria": "junior",
+      "division": "-52kg"
+    },
+    {
+      "id": "a16",
+      "nombre": "Pedro Romero",
+      "genero": "masculino",
+      "edad": 16,
+      "peso": 50,
+      "categoria": "junior",
+      "division": "-52kg"
+    },
+    {
+      "id": "a17",
+      "nombre": "Juan Gomez",
+      "genero": "masculino",
+      "edad": 16,
+      "peso": 51.2,
+      "categoria": "junior",
+      "division": "-52kg"
+    },
+    {
+      "id": "a18",
+      "nombre": "Jonathan Gonzalez",
+      "genero": "masculino",
+      "edad": 16,
+      "peso": 50.5,
+      "categoria": "junior",
+      "division": "-52kg"
+    },
+    {
+      "id": "a19",
+      "nombre": "Jon Villa",
+      "genero": "masculino",
+      "edad": 16,
+      "peso": 49,
+      "categoria": "junior",
+      "division": "-52kg"
+    },
+    {
+      "id": "a20",
+      "nombre": "Miguel Alfonzo",
+      "genero": "masculino",
+      "edad": 16,
+      "peso": 51,
+      "categoria": "junior",
+      "division": "-52kg"
+    
+    },
+    {
+      "id": "a21",
+      "nombre": "Roberto Mierez",
+      "genero": "masculino",
+      "edad": 16,
+      "peso": 51.9,
+      "categoria": "junior",
+      "division": "-52kg"
+    },
+    {
+      "id": "a22",
+      "nombre": "Albert Fernandez",
+      "genero": "masculino",
+      "edad": 17,
+      "peso": 50.9,
+      "categoria": "junior",
+      "division": "-52kg"
+    }
+  ]
+  
