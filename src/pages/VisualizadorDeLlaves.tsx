@@ -1,4 +1,4 @@
- import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLlaveManager } from "@/hooks/LlaveManager";
 import LlaveInterfaz from "@/components/LlaveInterfaz";
 import CombateDos from "@/components/CombateDos";
@@ -128,35 +128,40 @@ export default function VisualizadorDeLlaves() {
   }
 
   const calcularPodioRoundRobin = () => {
-    const conteo: Record<string, number> = {};
-    combates.forEach((c) => {
-      if (c.ganadorId) conteo[c.ganadorId] = (conteo[c.ganadorId] || 0) + 1;
-    });
+  // Conteo de victorias por atleta
+  const conteo: Record<string, number> = {};
+  combates.forEach((c) => {
+    if (c.ganadorId) conteo[c.ganadorId] = (conteo[c.ganadorId] || 0) + 1;
+  });
 
-    const participantes = grupoFiltrado.map((a) => a.id);
-    if (Object.values(conteo).reduce((a, b) => a + b, 0) < 3) return null;
+  const participantes = grupoFiltrado.map((a) => a.id);
 
-    const ordenados = [...participantes].sort((a, b) => {
-      const ia = incidencias[a] || { leves: 0, graves: 0, cuentas: 0, peso: 100 };
-      const ib = incidencias[b] || { leves: 0, graves: 0, cuentas: 0, peso: 100 };
-      const vA = conteo[a] || 0;
-      const vB = conteo[b] || 0;
+  // Solo calcula podio si están resueltas las 3 peleas
+  if (Object.values(conteo).reduce((a, b) => a + b, 0) < 3) return null;
 
-      if (vA !== vB) return vB - vA;
-      if (ia.leves !== ib.leves) return ia.leves - ib.leves;
-      if (ia.graves !== ib.graves) return ia.graves - ib.graves;
-      if (ia.cuentas !== ib.cuentas) return ia.cuentas - ib.cuentas;
-      return ia.peso - ib.peso;
-    });
+  // Ordenamiento por victorias e incidencias (personaliza según tu lógica)
+  const ordenados = [...participantes].sort((a, b) => {
+    const ia = incidencias[a] || { leves: 0, graves: 0, cuentas: 0, peso: 100 };
+    const ib = incidencias[b] || { leves: 0, graves: 0, cuentas: 0, peso: 100 };
+    const vA = conteo[a] || 0;
+    const vB = conteo[b] || 0;
 
-    return {
-      primero: ordenados[0],
-      segundo: ordenados[1],
-      tercero: ordenados[2],
-    };
+    if (vA !== vB) return vB - vA; // Más victorias primero
+    if (ia.leves !== ib.leves) return ia.leves - ib.leves;
+    if (ia.graves !== ib.graves) return ia.graves - ib.graves;
+    if (ia.cuentas !== ib.cuentas) return ia.cuentas - ib.cuentas;
+    return ia.peso - ib.peso; // Menor peso primero
+  });
+
+  return {
+    primero: ordenados[0],
+    segundo: ordenados[1],
+    tercero: ordenados[2],
   };
+};
 
   return (
+  <>
     <div className="p-6 max-w-6xl mx-auto text-white">
       <h1 className="text-2xl font-bold mb-4 text-center">{obtenerNombreEvento()}</h1>
 
@@ -208,9 +213,23 @@ export default function VisualizadorDeLlaves() {
 
       {/* Combates y llaves */}
       <div>
-        {grupoFiltrado.length === 2 && <CombateDos atletas={grupoFiltrado} />}
+        {grupoFiltrado.length === 2 && (
+  <CombateDos
+    atletas={grupoFiltrado}
+    onFinalizado={(ganador, perdedor) => {
+      guardarPodioEnLocalStorage({
+        genero,
+        categoria,
+        division,
+        primero: ganador.id,
+        segundo: perdedor.id,
+        terceros: [],
+      });
+    }}
+  />
+)}
         {grupoFiltrado.length === 3 && (
-          <>
+          <>  
             <button onClick={() => inicializarLlave3(grupoFiltrado)} className="bg-blue-600 text-white px-4 py-2 rounded mb-4">🎲 Iniciar round-robin</button>
             {/* Panel de incidencias */}
             <div className="bg-gray-700 p-4 rounded mb-4">
@@ -266,39 +285,6 @@ export default function VisualizadorDeLlaves() {
                 </tbody>
               </table>
             </div>
-
-            {combates.map((c) => (
-              <LlaveInterfaz
-                key={c.id}
-                combate={c}
-                seleccionarGanador={seleccionarGanador}
-                actualizarOrdenCombate={actualizarOrdenCombate}
-              />
-            ))}
-
-            {(() => {
-              const podio = calcularPodio(); 
-              if (podio) {
-                guardarPodioEnLocalStorage({
-                  genero,
-                  categoria,
-                  division,
-                  primero: atletasMap[podio.primero],
-                  segundo: atletasMap[podio.segundo],
-                  terceros:atletasMap[podio.tercero],
-                });
-
-                return (
-                  <div className="mt-6 p-4 bg-green-700 text-white rounded">
-                    <h2 className="text-xl font-bold mb-2">🏆 Resultados Finales</h2>
-                    <p>🥇 1°: {atletasMap[podio.primero]}</p>
-                    <p>🥈 2°: {atletasMap[podio.segundo]}</p>
-                    <p>🥉 3°: {atletasMap[podio.tercero]}</p>
-                  </div>
-                );
-              }
-              return null;
-            })()}
           </>
         )}
 
@@ -327,6 +313,30 @@ export default function VisualizadorDeLlaves() {
                 actualizarOrdenCombate={actualizarOrdenCombate}
               />
             ))}
+
+            {/* BLOQUE PARA MOSTRAR Y GUARDAR EL PODIO EN LLAVES ELIMINATORIAS */}
+            {(() => {
+              const podio = calcularPodio();
+              if (podio) {
+                guardarPodioEnLocalStorage({
+                  genero,
+                  categoria,
+                  division,
+                  primero: atletasMap[podio.primero],
+                  segundo: atletasMap[podio.segundo],
+                  terceros: podio.terceros.map(id => atletasMap[id]),
+                });
+                return (
+                  <div className="mt-6 p-4 bg-green-700 text-white rounded">
+                    <h2 className="text-xl font-bold mb-2">🏆 Resultados Finales</h2>
+                    <p>🥇 1°: {atletasMap[podio.primero]}</p>
+                    <p>🥈 2°: {atletasMap[podio.segundo]}</p>
+                    <p>🥉 3°: {podio.terceros.map(id => atletasMap[id]).join(" y ")}</p>
+                  </div>
+                );
+              }
+              return null;
+            })()}
           </>
         )}
       </div>
@@ -335,5 +345,6 @@ export default function VisualizadorDeLlaves() {
         <a href="/" className="text-blue-400 hover:underline">⬅️ Volver al panel</a>
       </div>
     </div>
-  );
+  </>
+);
 }

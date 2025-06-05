@@ -1,27 +1,19 @@
-export function guardarPodioEnLocalStorage(podio: {
+export function guardarPodioEnLocalStorage({
+  genero,
+  categoria,
+  division,
+  primero,
+  segundo,
+  terceros
+}: {
   genero: string;
   categoria: string;
   division: string;
-  primero: string;
-  segundo: string;
-  terceros: string[];
+  primero: any; // objeto atleta
+  segundo: any;
+  terceros: any[];
 }) {
-  try {
-    const clave = "podios";
-    const previos = JSON.parse(localStorage.getItem(clave) || "[]");
-
-    const yaExiste = previos.some(
-      (p: any) =>
-        p.genero === podio.genero &&
-        p.categoria === podio.categoria &&
-        p.division === podio.division
-    );
-
-    if (!yaExiste) {
-      previos.push(podio);
-      localStorage.setItem(clave, JSON.stringify(previos));
-    }
-  } catch (e) {
-    console.error("Error guardando podio:", e);
-  }
+  const clave = `podio-${genero}-${categoria}-${division}`;
+  const podio = { primero, segundo, terceros };
+  localStorage.setItem(clave, JSON.stringify(podio));
 }

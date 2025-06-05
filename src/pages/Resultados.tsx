@@ -46,9 +46,28 @@ export default function Resultados() {
               <h2 className="text-xl font-semibold mb-2">
                 {p.genero.toUpperCase()} / {p.categoria.toUpperCase()} / {p.division}
               </h2>
-              <p>🥇 1°: {p.primero}</p>
-              <p>🥈 2°: {p.segundo}</p>
-              <p>🥉 3°: {p.terceros.join(" y ")}</p>
+              <p>🥇 1°: {
+  // Si podio.primero es objeto, usa su nombre. Si es ID, busca en atletasMap o muestra el ID.
+  typeof podio.primero === "object"
+    ? podio.primero.nombre
+    : atletasMap[podio.primero] || podio.primero
+}</p>
+<p>🥈 2°: {
+  typeof podio.segundo === "object"
+    ? podio.segundo.nombre
+    : atletasMap[podio.segundo] || podio.segundo
+}</p>
+{podio.terceros && podio.terceros.length > 0 && (
+  <p>🥉 3°: {
+    podio.terceros
+      .map((t: any) =>
+        typeof t === "object"
+          ? t.nombre
+          : atletasMap[t] || t
+      )
+      .join(" y ")
+  }</p>
+)}
             </div>
           ))}
         </div>

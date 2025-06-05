@@ -3,9 +3,10 @@ import { Atleta, Combate } from "@/hooks/LlaveManager";
 
 type Props = {
   atletas: Atleta[];
+  onFinalizado?: (ganador: Atleta, perdedor: Atleta) => void; // <--- nueva prop!
 };
 
-export default function CombateDos({ atletas }: Props) {
+export default function CombateDos({ atletas, onFinalizado }: Props) {
   const [combate, setCombate] = useState<Combate>({
     id: "final",
     ronda: "Final",
@@ -16,7 +17,16 @@ export default function CombateDos({ atletas }: Props) {
 
   const seleccionarGanador = (color: "rojo" | "azul") => {
     const ganadorId = color === "rojo" ? combate.rojo?.id : combate.azul?.id;
-    setCombate({ ...combate, ganadorId: ganadorId || null });
+    setCombate((prev) => {
+      const nuevo = { ...prev, ganadorId: ganadorId || null };
+      // Llama al callback si existe y si hay ganador
+      if (nuevo.ganadorId && onFinalizado) {
+        const ganador = color === "rojo" ? nuevo.rojo : nuevo.azul;
+        const perdedor = color === "rojo" ? nuevo.azul : nuevo.rojo;
+        onFinalizado(ganador, perdedor);
+      }
+      return nuevo;
+    });
   };
 
   const mostrarPodio = combate.ganadorId !== null;
