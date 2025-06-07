@@ -4,6 +4,9 @@ import LlaveInterfaz from "@/components/LlaveInterfaz";
 import CombateDos from "@/components/CombateDos";
 import { guardarPodioEnLocalStorage } from "@/utils/podio";
 import { obtenerNombreEvento } from "@/utils/evento";
+// * nuevo * //
+import LlaveVisual3 from "@/components/LlaveVisual3";
+
 
 type Atleta = {
   id: string;
@@ -38,6 +41,10 @@ export default function VisualizadorDeLlaves() {
     calcularPodio,
   } = useLlaveManager();
 
+// Nuevo estado para los atletas sorteados y resultados del round robin
+const [atletasLlave3, setAtletasLlave3] = useState<(Atleta | null)[]>([]);
+const [resultados3, setResultados3] = useState<{ [combate: number]: string }>({});
+  
   const [incidencias, setIncidencias] = useState<Record<
     string,
     { leves: number; graves: number; cuentas: number; peso: number }
@@ -229,64 +236,103 @@ export default function VisualizadorDeLlaves() {
   />
 )}
         {grupoFiltrado.length === 3 && (
-          <>  
-            <button onClick={() => inicializarLlave3(grupoFiltrado)} className="bg-blue-600 text-white px-4 py-2 rounded mb-4">🎲 Iniciar round-robin</button>
-            {/* Panel de incidencias */}
-            <div className="bg-gray-700 p-4 rounded mb-4">
-              <h3 className="font-bold mb-2">Registro de Incidencias</h3>
-              <table className="text-white w-full text-sm">
-                <thead><tr><th>Atleta</th><th>Leves</th><th>Graves</th><th>Cuentas</th><th>Peso</th></tr></thead>
-                <tbody>
-                  {grupoFiltrado.map((a) => (
-                    <tr key={a.id}>
-                      <td>{a.nombre}</td>
-                      {["leves", "graves", "cuentas"].map((campo) => (
-                        <td key={campo}>
-                          <input
-                            type="number"
-                            min={0}
-                            defaultValue={0}
-                            className="w-16 text-black rounded p-1"
-                            onChange={(e) =>
-                              setIncidencias((prev) => ({
-                                ...prev,
-                                [a.id]: {
-                                  ...(prev[a.id] || {}),
-                                  [campo]: parseInt(e.target.value) || 0,
-                                  peso: prev[a.id]?.peso || a.peso,
-                                },
-                              }))
-                            }
-                          />
-                        </td>
-                      ))}
-                      <td>
-                        <input
-                          type="number"
-                          step="0.1"
-                          defaultValue={a.peso}
-                          className="w-20 text-black rounded p-1"
-                          onChange={(e) =>
-                            setIncidencias((prev) => ({
-                              ...prev,
-                              [a.id]: {
-                                ...(prev[a.id] || {}),
-                                leves: prev[a.id]?.leves || 0,
-                                graves: prev[a.id]?.graves || 0,
-                                cuentas: prev[a.id]?.cuentas || 0,
-                                peso: parseFloat(e.target.value) || a.peso,
-                              },
-                            }))
-                          }
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </>
-        )}
+  <>
+    <button
+      onClick={() => {
+        setAtletasLlave3([...grupoFiltrado]); // puedes barajar aquí si quieres sorteo aleatorio
+        setResultados3({});
+      }}
+      className="bg-blue-600 text-white px-4 py-2 rounded mb-4"
+    >
+      🎲 Iniciar round-robin
+    </button>
+
+    {/* Panel de incidencias */}
+    <div className="bg-gray-700 p-4 rounded mb-4">
+      <h3 className="font-bold mb-2">Registro de Incidencias</h3>
+      <table className="text-white w-full text-sm">
+        <thead>
+          <tr>
+            <th>Atleta</th>
+            <th>Leves</th>
+            <th>Graves</th>
+            <th>Cuentas</th>
+            <th>Peso</th>
+          </tr>
+        </thead>
+        <tbody>
+          {grupoFiltrado.map((a) => (
+            <tr key={a.id}>
+              <td>{a.nombre}</td>
+              {["leves", "graves", "cuentas"].map((campo) => (
+                <td key={campo}>
+                  <input
+                    type="number"
+                    min={0}
+                    defaultValue={0}
+                    className="w-16 text-black rounded p-1"
+                    onChange={(e) =>
+                      setIncidencias((prev) => ({
+                        ...prev,
+                        [a.id]: {
+                          ...(prev[a.id] || {}),
+                          [campo]: parseInt(e.target.value) || 0,
+                          peso: prev[a.id]?.peso || a.peso,
+                        },
+                      }))
+                    }
+                  />
+                </td>
+              ))}
+              <td>
+                <input
+                  type="number"
+                  step="0.1"
+                  defaultValue={a.peso}
+                  className="w-20 text-black rounded p-1"
+                  onChange={(e) =>
+                    setIncidencias((prev) => ({
+                      ...prev,
+                      [a.id]: {
+                        ...(prev[a.id] || {}),
+                        leves: prev[a.id]?.leves || 0,
+                        graves: prev[a.id]?.graves || 0,
+                        cuentas: prev[a.id]?.cuentas || 0,
+                        peso: parseFloat(e.target.value) || a.peso,
+                      },
+                    }))
+                  }
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {/* Mostrar fixture y selección de ganadores */}
+    {atletasLlave3.length === 3 && (
+      <LlaveVisual3
+        atletasUbicados={atletasLlave3}
+        resultados={resultados3}
+        setResultados={setResultados3}
+        onFinalizar={(podio) => {
+          // GUARDAR PODIO EN LOCALSTORAGE
+          const podiosGuardados = JSON.parse(localStorage.getItem("podios") || "[]");
+          podiosGuardados.push({
+            genero,
+            categoria,
+            division,
+            primero: podio.primero,
+            segundo: podio.segundo,
+            terceros: podio.terceros,
+          });
+          localStorage.setItem("podios", JSON.stringify(podiosGuardados));
+        }}
+      />
+    )}
+  </>
+)}
 
         {grupoFiltrado.length >= 4 && grupoFiltrado.length <= 8 && (
           <>
