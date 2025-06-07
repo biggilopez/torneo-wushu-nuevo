@@ -239,7 +239,7 @@ const [resultados3, setResultados3] = useState<{ [combate: number]: string }>({}
   <>
     <button
       onClick={() => {
-        setAtletasLlave3([...grupoFiltrado]); // puedes barajar aquí si quieres sorteo aleatorio
+        setAtletasLlave3([...grupoFiltrado]);
         setResultados3({});
       }}
       className="bg-blue-600 text-white px-4 py-2 rounded mb-4"
@@ -317,7 +317,7 @@ const [resultados3, setResultados3] = useState<{ [combate: number]: string }>({}
         resultados={resultados3}
         setResultados={setResultados3}
         onFinalizar={(podio) => {
-          // GUARDAR PODIO EN LOCALSTORAGE
+          // Guardar podio en localStorage
           const podiosGuardados = JSON.parse(localStorage.getItem("podios") || "[]");
           podiosGuardados.push({
             genero,
