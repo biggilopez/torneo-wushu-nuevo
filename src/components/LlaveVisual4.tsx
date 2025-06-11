@@ -1,46 +1,25 @@
-// src/components/LlaveVisual4.tsx
 import React from "react";
+type Atleta = { id: string; nombre: string; numeroSorteo: number };
 
-type Atleta = {
-  id: string;
-  nombre: string;
-  numeroSorteo: number;
-};
-
-type Props = {
-  atletasUbicados: (Atleta | null)[];
-};
-
-export default function LlaveVisual4({ atletasUbicados }: Props) {
-  if (atletasUbicados.length < 4) {
-    return <div className="text-red-500">Faltan atletas para la llave de 4.</div>;
-  }
-
-  const [a1, a2, a3, a4] = atletasUbicados;
+export default function LlaveVisual4({ atletas }: { atletas: Atleta[] }) {
+  // Grilla estándar: 1 vs 4, 2 vs 3
+  const a1 = atletas.find(a => a.numeroSorteo === 1);
+  const a2 = atletas.find(a => a.numeroSorteo === 2);
+  const a3 = atletas.find(a => a.numeroSorteo === 3);
+  const a4 = atletas.find(a => a.numeroSorteo === 4);
 
   return (
-    <div className="text-white space-y-4">
-      <h2 className="text-lg font-semibold">Llave de 4 atletas</h2>
-
-      <div>
-        <p className="font-semibold">Semifinal 1:</p>
-        <p>
-          Rojo: {a1?.nombre || "BYE"} vs Azul: {a3?.nombre || "BYE"}
-        </p>
+    <div className="bg-gray-800 p-4 rounded shadow text-white max-w-md mx-auto">
+      <h2 className="text-xl font-bold mb-4 text-center">Llave de 4 atletas</h2>
+      <div className="mb-3">
+        <div className="font-semibold">Semifinal 1</div>
+        <div>{a1?.nombre || "Vacante"} vs {a4?.nombre || "Vacante"}</div>
       </div>
-
-      <div>
-        <p className="font-semibold">Semifinal 2:</p>
-        <p>
-          Rojo: {a2?.nombre || "BYE"} vs Azul: {a4?.nombre || "BYE"}
-        </p>
+      <div className="mb-3">
+        <div className="font-semibold">Semifinal 2</div>
+        <div>{a2?.nombre || "Vacante"} vs {a3?.nombre || "Vacante"}</div>
       </div>
-
-      <div>
-        <p className="font-semibold mt-4">Final:</p>
-        <p>Ganador Semifinal 1 vs Ganador Semifinal 2</p>
-      </div>
+      <div className="mt-4 text-center text-sm text-gray-400">Los ganadores avanzan a la final.</div>
     </div>
   );
 }
-

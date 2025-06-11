@@ -1,76 +1,29 @@
-// src/components/LlaveVisual7.tsx
 import React from "react";
+type Atleta = { id: string; nombre: string; numeroSorteo: number };
 
-type Atleta = {
-  id: string;
-  nombre: string;
-  numeroSorteo: number;
-};
-
-type Props = {
-  atletasUbicados: (Atleta | null)[];
-};
-
-export default function LlaveVisual7({ atletasUbicados }: Props) {
-  const [a1, a7, a6, a5, a4, a3, a2] = atletasUbicados;
+export default function LlaveVisual7({ atletas }: { atletas: Atleta[] }) {
+  // Grilla estándar para 7:
+  // 1 pasa a semi, cuartos: 2 vs 7, 3 vs 6, 4 vs 5
+  const a1 = atletas.find(a => a.numeroSorteo === 1);
+  const a2 = atletas.find(a => a.numeroSorteo === 2);
+  const a3 = atletas.find(a => a.numeroSorteo === 3);
+  const a4 = atletas.find(a => a.numeroSorteo === 4);
+  const a5 = atletas.find(a => a.numeroSorteo === 5);
+  const a6 = atletas.find(a => a.numeroSorteo === 6);
+  const a7 = atletas.find(a => a.numeroSorteo === 7);
 
   return (
-    <div className="text-white space-y-4">
-      <h2 className="text-xl font-bold text-center mb-4">Llave de 7 atletas</h2>
-
-      {/* Primera ronda (cuartos de final) */}
-      <div className="grid grid-cols-2 gap-6">
-        <div>
-          <p className="font-semibold">1 avanza por BYE a Semifinal 1 (Rojo):</p>
-          <div className="bg-green-700 p-2 rounded">
-            {a1 ? `${a1.nombre} (#${a1.numeroSorteo})` : "BYE"}
-          </div>
-        </div>
-        <div>
-          <p className="font-semibold">5 vs 4:</p>
-          <div className="bg-blue-700 p-2 rounded">
-            {a5?.nombre || "---"}
-          </div>
-          <div className="bg-red-700 p-2 rounded">
-            {a4?.nombre || "---"}
-          </div>
-        </div>
-
-        <div>
-          <p className="font-semibold">3 vs 6:</p>
-          <div className="bg-blue-700 p-2 rounded">
-            {a3?.nombre || "---"}
-          </div>
-          <div className="bg-red-700 p-2 rounded">
-            {a6?.nombre || "---"}
-          </div>
-        </div>
-        <div>
-          <p className="font-semibold">7 vs 2:</p>
-          <div className="bg-blue-700 p-2 rounded">
-            {a7?.nombre || "---"}
-          </div>
-          <div className="bg-red-700 p-2 rounded">
-            {a2?.nombre || "---"}
-          </div>
-        </div>
+    <div className="bg-gray-800 p-4 rounded shadow text-white max-w-md mx-auto">
+      <h2 className="text-xl font-bold mb-4 text-center">Llave de 7 atletas</h2>
+      <div className="mb-3">
+        <div className="font-semibold">Cuartos de final</div>
+        <div>2 ({a2?.nombre || "Vacante"}) vs 7 ({a7?.nombre || "Vacante"})</div>
+        <div>3 ({a3?.nombre || "Vacante"}) vs 6 ({a6?.nombre || "Vacante"})</div>
+        <div>4 ({a4?.nombre || "Vacante"}) vs 5 ({a5?.nombre || "Vacante"})</div>
+        <div>1 ({a1?.nombre || "Vacante"}) pasa a semifinal</div>
       </div>
-
-      {/* Semifinales */}
-      <div className="mt-8">
-        <p className="font-semibold mb-2">Semifinal 1:</p>
-        <p className="italic text-gray-400">Rojo: {a1?.nombre || "---"} vs Azul: Ganador(5 vs 4)</p>
-
-        <p className="font-semibold mt-6 mb-2">Semifinal 2:</p>
-        <p className="italic text-gray-400">Rojo: Ganador(3 vs 6) vs Azul: Ganador(7 vs 2)</p>
-      </div>
-
-      {/* Final */}
-      <div className="mt-10">
-        <p className="font-bold mb-2">Final:</p>
-        <p className="italic text-gray-400">Ganador Semifinal 1 vs Ganador Semifinal 2</p>
-      </div>
+      <div className="font-semibold mt-4">Semifinales y final según ganadores</div>
+      <div className="mt-4 text-center text-sm text-gray-400">Los ganadores avanzan según el cuadro oficial.</div>
     </div>
   );
 }
-

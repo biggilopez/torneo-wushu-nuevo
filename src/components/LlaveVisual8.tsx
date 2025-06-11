@@ -1,40 +1,29 @@
-// src/components/LlaveVisual8.tsx
 import React from "react";
+type Atleta = { id: string; nombre: string; numeroSorteo: number };
 
-type Atleta = {
-  id: string;
-  nombre: string;
-  numeroSorteo: number;
-};
+export default function LlaveVisual8({ atletas }: { atletas: Atleta[] }) {
+  // Grilla estándar para 8: 1 vs 8, 4 vs 5, 2 vs 7, 3 vs 6
+  const a1 = atletas.find(a => a.numeroSorteo === 1);
+  const a2 = atletas.find(a => a.numeroSorteo === 2);
+  const a3 = atletas.find(a => a.numeroSorteo === 3);
+  const a4 = atletas.find(a => a.numeroSorteo === 4);
+  const a5 = atletas.find(a => a.numeroSorteo === 5);
+  const a6 = atletas.find(a => a.numeroSorteo === 6);
+  const a7 = atletas.find(a => a.numeroSorteo === 7);
+  const a8 = atletas.find(a => a.numeroSorteo === 8);
 
-type Props = {
-  atletasUbicados: (Atleta | null)[];
-};
-
-export default function LlaveVisual8({ atletasUbicados }: Props) {
   return (
-    <div className="space-y-4 text-white">
-      <h2 className="text-lg font-semibold text-center">🧩 Llave de 8 atletas</h2>
-
-      <div>
-        <p className="font-semibold">Cuartos de Final</p>
-        <p>{atletasUbicados[0]?.nombre || "BYE"} vs {atletasUbicados[1]?.nombre || "BYE"}</p>
-        <p>{atletasUbicados[2]?.nombre || "BYE"} vs {atletasUbicados[3]?.nombre || "BYE"}</p>
-        <p>{atletasUbicados[4]?.nombre || "BYE"} vs {atletasUbicados[5]?.nombre || "BYE"}</p>
-        <p>{atletasUbicados[6]?.nombre || "BYE"} vs {atletasUbicados[7]?.nombre || "BYE"}</p>
+    <div className="bg-gray-800 p-4 rounded shadow text-white max-w-md mx-auto">
+      <h2 className="text-xl font-bold mb-4 text-center">Llave de 8 atletas</h2>
+      <div className="mb-3">
+        <div className="font-semibold">Cuartos de final</div>
+        <div>1 ({a1?.nombre || "Vacante"}) vs 8 ({a8?.nombre || "Vacante"})</div>
+        <div>4 ({a4?.nombre || "Vacante"}) vs 5 ({a5?.nombre || "Vacante"})</div>
+        <div>2 ({a2?.nombre || "Vacante"}) vs 7 ({a7?.nombre || "Vacante"})</div>
+        <div>3 ({a3?.nombre || "Vacante"}) vs 6 ({a6?.nombre || "Vacante"})</div>
       </div>
-
-      <div>
-        <p className="font-semibold">Semifinales</p>
-        <p>GANADOR (1 vs 8) vs GANADOR (5 vs 4)</p>
-        <p>GANADOR (3 vs 6) vs GANADOR (7 vs 2)</p>
-      </div>
-
-      <div>
-        <p className="font-semibold">Final</p>
-        <p>GANADOR SEMIFINAL 1 vs GANADOR SEMIFINAL 2</p>
-      </div>
+      <div className="font-semibold mt-4">Semifinales y final según ganadores</div>
+      <div className="mt-4 text-center text-sm text-gray-400">Los ganadores avanzan según el cuadro oficial.</div>
     </div>
   );
 }
-

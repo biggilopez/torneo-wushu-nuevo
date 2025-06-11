@@ -13,7 +13,7 @@ export function guardarPodioEnLocalStorage({
   segundo: any;
   terceros: any[];
 }) {
-  const clave = `podio-${genero}-${categoria}-${division}`;
-  const podio = { primero, segundo, terceros };
-  localStorage.setItem(clave, JSON.stringify(podio));
+  const clave = `podios-${genero}-${categoria}-${division}`;
+  const podios = { primero, segundo, terceros };
+  localStorage.setItem(clave, JSON.stringify(podios));
 }

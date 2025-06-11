@@ -6,6 +6,7 @@ import VisualizadorDeLlaves from "@/pages/VisualizadorDeLlaves";
 import Inscripciones from "@/pages/Inscripciones";
 import Resultados from "@/pages/Resultados";
 
+
 function App() {
   useEffect(() => {
     // Solo cargar si no está en localStorage
@@ -21,6 +22,7 @@ function App() {
     }
   }, []);
 
+  console.log("CAMBIO DETECTADO: ESTÁS EDITANDO EL CÓDIGO CORRECTO");
   return (
     <Routes>
       <Route path="/" element={<DashboardOrganizador />} />

@@ -5,6 +5,9 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
 
+alert("ESTE ES MI PROYECTO ACTUAL");
+console.log("MOUNT APP PRINCIPAL");
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
